@@ -35,10 +35,10 @@ ip tunnel add 6to4_IN mode sit remote '"$ip_remote"'
 ip -6 addr add fd00:155::1/64 dev 6to4_IN
 ip link set 6to4_IN mtu 1480
 ip link set 6to4_IN up
-sudo ip link add vxlan0 type vxlan id 3188 dstport 53 local fd00:155::1 remote fd00:155::2 dev '"$network_name"'
-sudo ip link set vxlan0 mtu 1500
-sudo ip link set vxlan0 up
-sudo ip addr add 192.168.23.1/30 dev vxlan0
+sudo ip link add spacer type vxlan id 3188 dstport 53 local fd00:155::1 remote fd00:155::2 dev '"$network_name"'
+sudo ip link set spacer mtu 1500
+sudo ip link set spacer up
+sudo ip addr add 192.168.23.1/30 dev spacer
 sudo iptables -A INPUT -p udp --dport 53 -j ACCEPT
 sudo ip6tables -A INPUT -p udp --dport 53 -j ACCEPT
 sysctl net.ipv4.ip_forward=1
@@ -65,10 +65,10 @@ ip tunnel add 6to4_OUT mode sit remote '"$ip_remote"'
 ip -6 addr add fd00:155::2/64 dev 6to4_OUT
 ip link set 6to4_OUT mtu 1480
 ip link set 6to4_OUT up
-sudo ip link add vxlan0 type vxlan id 3188 dstport 53 local fd00:155::2 remote fd00:155::1 dev '"$network_name"'
-sudo ip link set vxlan0 mtu 1500
-sudo ip link set vxlan0 up
-sudo ip addr add 192.168.23.2/30 dev vxlan0
+sudo ip link add spacer type vxlan id 3188 dstport 53 local fd00:155::2 remote fd00:155::1 dev '"$network_name"'
+sudo ip link set spacer mtu 1500
+sudo ip link set spacer up
+sudo ip addr add 192.168.23.2/30 dev spacer
 sudo iptables -A INPUT -p udp --dport 53 -j ACCEPT
 sudo ip6tables -A INPUT -p udp --dport 53 -j ACCEPT
 exit 0
