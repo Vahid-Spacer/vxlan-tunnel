@@ -8,11 +8,12 @@ fi
 sudo apt update
 sudo apt install iproute2
 sudo apt-get install -y iptables-persistent
-echo " "
-echo "1. Iran"
-echo "2. Kharej"
-echo "3. uninstall"
-echo " "
+echo "========================"
+echo "select: "
+echo "    1. Iran"
+echo "    2. Kharej"
+echo "    3. uninstall"
+echo "========================"
 # Prompt user for IP addresses
 read -p "Select number : " choices
 if [ "$choices" -eq 1 ]; then
