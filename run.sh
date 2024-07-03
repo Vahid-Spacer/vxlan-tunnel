@@ -60,6 +60,10 @@ elif [ "$choices" -eq 2 ]; then
   echo "Kharej IPv4 is : $ipv4_address"
   read -p "enter Iran Ip : " ip_remote
   read -p "enter network name :" network_name
+ip tunnel add 6to4_OUT mode sit remote $ip_remote
+ip -6 addr add fd00:155::2/64 dev 6to4_OUT
+ip link set 6to4_OUT mtu 1480
+ip link set 6to4_OUT up
   rctext='#!/bin/bash
 ip tunnel add 6to4_OUT mode sit remote '"$ip_remote"'
 ip -6 addr add fd00:155::2/64 dev 6to4_OUT
