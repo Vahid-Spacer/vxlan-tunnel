@@ -48,6 +48,11 @@ exit 0
 '
   sleep 0.5
   echo "$rctext" > /etc/rc.local
+  echo "tunnel successfully."
+  read -p "Do you want to get a ping? (recommended)[y/n]:" yes_no
+  if [[ $yes_no =~ ^[Yy]$ ]] || [[ $yes_no =~ ^[Yy]es$ ]]; then
+    ping6 fd00:155::1
+  fi
 elif [ "$choices" -eq 2 ]; then
   #sudo nano /etc/rc.local && sudo chmod +x /etc/rc.local
   ipv4_address=$(curl -s https://api.ipify.org)
@@ -69,6 +74,11 @@ exit 0
 '
   sleep 0.5
   echo "$rctext" > /etc/rc.local
+  echo "tunnel successfully."
+  read -p "Do you want to get a ping? (recommended)[y/n]:" yes_no
+  if [[ $yes_no =~ ^[Yy]$ ]] || [[ $yes_no =~ ^[Yy]es$ ]]; then
+    ping6 fd00:155::2
+  fi
 elif [ "$choices" -eq 3 ]; then
   echo > /etc/rc.local
   sudo mv /root/rc.local.old /etc/rc.local
