@@ -21,14 +21,6 @@ if [ "$choices" -eq 1 ]; then
   echo "Iran IPv4 is : $ipv4_address"
   read -p "enter Kharej Ipv4 :" ip_remote
   read -p "enter network name :" network_name
-ip tunnel add 6to4_IN mode sit remote $ip_remote
-ip -6 addr add fd00:155::1/64 dev 6to4_IN
-ip link set 6to4_IN mtu 1480
-ip link set 6to4_IN up
-sysctl net.ipv4.ip_forward=1
-iptables -t nat -A PREROUTING -p tcp --dport 22 -j DNAT --to-destination 192.168.23.1
-iptables -t nat -A PREROUTING -j DNAT --to-destination 192.168.23.2
-iptables -t nat -A POSTROUTING -j MASQUERADE
   #sudo nano /etc/rc.local && sudo chmod +x /etc/rc.local
   rctext='#!/bin/bash
 ip tunnel add 6to4_IN mode sit remote '"$ip_remote"'
@@ -50,9 +42,9 @@ exit 0
   sleep 0.5
   echo "$rctext" > /etc/rc.local
   echo "tunnel successfully."
-  read -p "Do you want to get a ping? (recommended)[y/n]:" yes_no
+  read -p "do you want to reboot?(recommended)[y/n] :" yes_no
   if [[ $yes_no =~ ^[Yy]$ ]] || [[ $yes_no =~ ^[Yy]es$ ]]; then
-    ping6 fd00:155::1
+    reboot
   fi
 elif [ "$choices" -eq 2 ]; then
   #sudo nano /etc/rc.local && sudo chmod +x /etc/rc.local
@@ -60,10 +52,6 @@ elif [ "$choices" -eq 2 ]; then
   echo "Kharej IPv4 is : $ipv4_address"
   read -p "enter Iran Ip : " ip_remote
   read -p "enter network name :" network_name
-ip tunnel add 6to4_OUT mode sit remote $ip_remote
-ip -6 addr add fd00:155::2/64 dev 6to4_OUT
-ip link set 6to4_OUT mtu 1480
-ip link set 6to4_OUT up
   rctext='#!/bin/bash
 ip tunnel add 6to4_OUT mode sit remote '"$ip_remote"'
 ip -6 addr add fd00:155::2/64 dev 6to4_OUT
@@ -80,9 +68,9 @@ exit 0
   sleep 0.5
   echo "$rctext" > /etc/rc.local
   echo "tunnel successfully."
-  read -p "Do you want to get a ping? (recommended)[y/n]:" yes_no
+  read -p "do you want to reboot?(recommended)[y/n] :" yes_no
   if [[ $yes_no =~ ^[Yy]$ ]] || [[ $yes_no =~ ^[Yy]es$ ]]; then
-    ping6 fd00:155::2
+    reboot
   fi
 elif [ "$choices" -eq 3 ]; then
   echo > /etc/rc.local
